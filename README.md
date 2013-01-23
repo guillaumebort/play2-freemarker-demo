@@ -1,4 +1,4 @@
-# Using freemarker as template engine with Play 2.0
+# Using freemarker as template engine with Play 2
 
 While Play 2.0 comes with a really [powerful, clean and type-safe template engine](http://playframework.org/documentation/latest/JavaTemplates) that is both usable from Scala and Java, it is really simple to switch it to whatever else you want.
 
