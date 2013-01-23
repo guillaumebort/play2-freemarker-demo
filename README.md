@@ -82,7 +82,7 @@ static {
 }
 ```
 
-And then, activate the proper level of logging in the Play `application.conf. file:
+And then, activate the proper level of logging in the Play `application.conf` file:
 
 ```properties
 # Debug Freemarker
