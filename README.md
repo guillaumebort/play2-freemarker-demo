@@ -119,7 +119,7 @@ public static class TemplateNotFoundException extends RuntimeException {
 
 And here is the nice rendering:
 
-xx
+!(https://raw.github.com/guillaumebort/play2-freemarker-demo/master/screenshots/template_notFound.png)
 
 ## Error in the template itself
 
@@ -176,7 +176,7 @@ public static class ExceptionInTemplate extends play.api.PlayException.Exception
 
 And again, here is the nice rendering:
 
-xx
+!(https://raw.github.com/guillaumebort/play2-freemarker-demo/master/screenshots/template_error.png)
 
 ## Hot reloading
 
