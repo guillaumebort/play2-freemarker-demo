@@ -23,7 +23,7 @@ val appDependencies = Seq(
 
 Here it depends if your template files are compiled, or just processed at runtime. In most case you want to use a dynamic template engine, and the only thing you have to do is to embed the template files into the classpath, so they are available in the classpath both in _dev_ and _prod_ mode.
 
-Here we will just copy the `app/views` directory content to the `target/.../classes`:
+Here we will just copy the `app/views` directory content to the `target/.../classes/views`:
 
 ```scala
 val main = play.Project(appName, appVersion, appDependencies).settings(
@@ -43,13 +43,13 @@ val main = play.Project(appName, appVersion, appDependencies).settings(
 
 ## Using the template engine to feed the HTTP response
 
-Here is the real integration between Play and your template engine. But wait... there is nothing to do. All the `ok(...)`, `notFound(...)`, etc. response generator takes the response body as an argument.
+Here is the real integration between Play and your template engine. But wait... there is nothing to do. All the `ok(...)`, `notFound(...)`, etc. response generators take the response body as an argument.
 
-The simplest way here is to have an helper method that take the _template name_, the _template arguments_, process them together and return an instance of `play.api.templates.Html`.
+The simplest way here is to have an helper method that takes the _template name_ and the _template arguments_, process them together and return an instance of `play.api.templates.Html`.
 
 `play.api.templates.Html` is really nothing but a wrapper on top of a `String` that just allows the framework to auto-select the correct `Content-Type` response header. You could also build your own, altough it requires a bit of Scala trickery since the magic is based on [type classes](http://en.wikipedia.org/wiki/Type_class).
 
-So, for so exemple, I have ended up with something like:
+So, for freemarker, I have ended up with something like:
 
 ```java
 // First import the helpers in your Controller
@@ -57,7 +57,7 @@ import static views.Freemarker.*;
 ...
 // Then use it
 public static Result index() {
-    return ok(
+  return ok(
     view("index.ftl",
       _("user", session("user")),
       _("products", Product.all())
@@ -68,7 +68,7 @@ public static Result index() {
 
 ## Integrating with the Logger infrastructure
 
-Play 2 uses __slf4j__ as logging component. If your template engine library supports it, it is really straightforward to integrate with it. If it doesn't support it, slf4j as bridge able to redirect other logging components.
+Play 2 uses __slf4j__ as logging component. If your template engine library supports it, it is really straightforward to integrate with it. If it doesn't support it, slf4j has several bridges able to redirect other logging components.
 
 Hopefully, __freemarker__ support it, so I can just configure it at the Java level using:
 
@@ -102,7 +102,7 @@ Nothing really special here. You can't do really better than reporting a `Runtim
 ```java
 public static class TemplateNotFoundException extends RuntimeException {
 
-    private final StackTraceElement[] callerStack;
+  private final StackTraceElement[] callerStack;
 
   public TemplateNotFoundException(String template, StackTraceElement[] stack) {
     super("Template " + template + " is missing.");
@@ -130,7 +130,7 @@ Easy, just implement your own version of `PlayException.ExceptionSource` and thr
 ```java
 public static class ExceptionInTemplate extends play.api.PlayException.ExceptionSource {
 
-    final String template;
+  final String template;
   final Integer line;
   final Integer position;
 
@@ -180,11 +180,11 @@ xx
 
 ## Hot reloading
 
-If you are using a dynamic template engine it should be trivial to achieve. The build system being intregated with hot reloading, it will be incrementally called at each file change/new request event. 
+If you are using a dynamic template engine it should be trivial to achieve. The build system being intregated with hot reloading, it will be incrementally called at each file change and new request events. 
 
-If needed you can create your own implementation of `play.PlayPlugin` that will be notified of application __start/stop__
+If needed you can create your own implementation of `play.PlayPlugin` that will be notified of application __start__ and __stop__
 
-For freemarker there nothing really special to do, apart of disable the cache:
+For freemarker there nothing really special to do, apart of disabling the cache (at least in _dev_ mode):
 
 ```java
 cfg.setTemplateUpdateDelay(0);
@@ -194,7 +194,7 @@ cfg.setTemplateUpdateDelay(0);
 
 From within the templates, it's really useful to access the reverse router to generate the URL for links, based on the Java or Scala action call.
 
-The reverse Router being just a set of statically compiled classes with staic accessors, there is nothing special to do to integrate with. As soon as your template engine can call global static Java accessors, you can use the reverse router.
+The reverse Router being just a set of statically compiled classes with static accessors, there is nothing special to do to integrate with. As soon as your template engine can call global static Java accessors, you can use the reverse router.
 
 For freemarker, you have to inject a special model that act as a proxy in front of dynamically generated java calls:
 
@@ -221,4 +221,6 @@ And then you can use it in your templates:
 ```
 
 > Actually it would be the same to integrate with a few other components, such as the __i18n__ framework.
+
+##Have fun!
 
