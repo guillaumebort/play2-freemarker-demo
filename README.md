@@ -74,7 +74,7 @@ Hopefully, __freemarker__ support it, so I can just configure it at the Java lev
 
 ```java
 static {
-    try {
+  try {
     freemarker.log.Logger.selectLoggerLibrary(freemarker.log.Logger.LIBRARY_SLF4J); 
   } catch(Exception e) {
     throw new RuntimeException(e);
