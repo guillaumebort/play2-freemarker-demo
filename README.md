@@ -95,7 +95,7 @@ One of the coolest feature of Play is its awesome error reporting. If you integr
 
 Here we can basically have 2 kind of errors.
 
-## Template not found
+### Template not found
 
 Nothing really special here. You can't do really better than reporting a `RuntimeException` showing the source code trying to load the template. Play already do that automatically. We just hack the stacktrace a bit to place the error at the caller position:
 
@@ -121,7 +121,7 @@ And here is the nice rendering:
 
 ![](https://raw.github.com/guillaumebort/play2-freemarker-demo/master/screenshots/template_notFound.png)
 
-## Error in the template itself
+### Error in the template itself
 
 If there is any error in the template parsing or rendering, it would be great to show the template source code in the browser, right?
 
