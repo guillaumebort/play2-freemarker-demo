@@ -222,5 +222,5 @@ And then you can use it in your templates:
 
 > Actually it would be the same to integrate with a few other components, such as the __i18n__ framework.
 
-##Have fun!
+__Have fun!__
 
