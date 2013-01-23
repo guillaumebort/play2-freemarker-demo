@@ -182,7 +182,7 @@ And again, here is the nice rendering:
 
 If you are using a dynamic template engine it should be trivial to achieve. The build system being intregated with hot reloading, it will be incrementally called at each file change and new request events. 
 
-If needed you can create your own implementation of `play.PlayPlugin` that will be notified of application __start__ and __stop__
+If needed you can create your own implementation of `play.PlayPlugin` that will be notified of application __start__ and __stop__.
 
 For freemarker there nothing really special to do, apart of disabling the cache (at least in _dev_ mode):
 
